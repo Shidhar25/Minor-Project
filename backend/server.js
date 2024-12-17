@@ -16,10 +16,9 @@ connectCloudinary()
 // middlewares
 app.use(express.json())
 app.use(cors({
-  origin: [
-    'https://your-frontend-domain.vercel.app',
-    'https://your-admin-domain.vercel.app'
-  ],
+  origin: process.env.NODE_ENV === 'production' 
+    ? [process.env.FRONTEND_URL, process.env.ADMIN_URL]
+    : ['http://localhost:5173', 'http://localhost:5174'],
   credentials: true
 }))
 
@@ -32,4 +31,6 @@ app.get("/", (req, res) => {
   res.send("API Working")
 });
 
-app.listen(port, () => console.log(`Server started on PORT:${port}`))
+const server = app.listen(port, () => console.log(`Server started on PORT:${port}`))
+
+export default app
