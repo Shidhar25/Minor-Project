@@ -31,10 +31,17 @@ const initializeServices = async () => {
 // middlewares
 app.use(express.json())
 app.use(cors({
+<<<<<<< HEAD
     origin: process.env.NODE_ENV === 'production' 
         ? [process.env.FRONTEND_URL, process.env.ADMIN_URL]
         : ['http://localhost:5173', 'http://localhost:5174'],
     credentials: true
+=======
+  origin: process.env.NODE_ENV === 'production' 
+    ? [process.env.FRONTEND_URL, process.env.ADMIN_URL]
+    : ['http://localhost:5173', 'http://localhost:5174'],
+  credentials: true
+>>>>>>> origin/main
 }))
 
 // api endpoints
@@ -46,6 +53,7 @@ app.get("/", (req, res) => {
     res.send("API Working")
 });
 
+<<<<<<< HEAD
 // Add this before your routes
 app.use((err, req, res, next) => {
     console.error("Error:", err);
@@ -65,5 +73,8 @@ initializeServices().then(() => {
         console.log(`✅ Server running on port ${port}`);
     });
 });
+=======
+const server = app.listen(port, () => console.log(`Server started on PORT:${port}`))
+>>>>>>> origin/main
 
 export default app

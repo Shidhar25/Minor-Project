@@ -1,5 +1,6 @@
 # Dependencies
 node_modules/
+<<<<<<< HEAD
 dist/
 build/
 
@@ -11,6 +12,15 @@ build/
 
 # Logs
 logs
+=======
+.env
+
+# Build files
+dist/
+build/
+
+# Logs
+>>>>>>> origin/main
 *.log
 npm-debug.log*
 
@@ -19,5 +29,9 @@ npm-debug.log*
 .idea/
 
 # OS
+<<<<<<< HEAD
 .DS_Store
 Thumbs.db 
+=======
+.DS_Store 
+>>>>>>> origin/main
