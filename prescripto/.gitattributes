@@ -1,0 +1,25 @@
+# Auto detect text files and perform LF normalization
+* text=auto
+
+# JS files should use LF
+*.js text eol=lf
+*.jsx text eol=lf
+
+# Environment files should use LF
+*.env* text eol=lf
+
+# Config files should use LF
+*.json text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.config.js text eol=lf
+
+# Documentation should use LF
+*.md text eol=lf
+
+# Don't modify binary files
+*.png binary
+*.jpg binary
+*.gif binary
+*.ico binary
+*.pdf binary 
