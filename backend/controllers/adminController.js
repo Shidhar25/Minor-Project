@@ -84,9 +84,22 @@ const addDoctor = async (req, res) => {
         const salt = await bcrypt.genSalt(10); // the more no. round the more time it will take
         const hashedPassword = await bcrypt.hash(password, salt)
 
-        // upload image to cloudinary
-        const imageUpload = await cloudinary.uploader.upload(imageFile.path, { resource_type: "image" })
-        const imageUrl = imageUpload.secure_url
+        // upload image to cloudinary with error handling
+        const imageUpload = await cloudinary.uploader.upload(imageFile.path, {
+            resource_type: "auto",
+            folder: "prescripto/doctors",
+            timeout: 120000,
+            transformation: [
+                { width: 500, height: 500, crop: "limit" },
+                { quality: "auto" }
+            ]
+        });
+        
+        if (!imageUpload || !imageUpload.secure_url) {
+            throw new Error("Failed to upload image");
+        }
+        
+        const imageUrl = imageUpload.secure_url;
 
         const doctorData = {
             name,
@@ -107,8 +120,11 @@ const addDoctor = async (req, res) => {
         res.json({ success: true, message: 'Doctor Added' })
 
     } catch (error) {
-        console.log(error)
-        res.json({ success: false, message: error.message })
+        console.error("Image Upload Error:", error);
+        return res.json({ 
+            success: false, 
+            message: "Image upload failed: " + error.message 
+        });
     }
 }
 

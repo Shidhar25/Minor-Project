@@ -114,12 +114,18 @@ const updateProfile = async (req, res) => {
         await userModel.findByIdAndUpdate(userId, { name, phone, address: JSON.parse(address), dob, gender })
 
         if (imageFile) {
-
-            // upload image to cloudinary
-            const imageUpload = await cloudinary.uploader.upload(imageFile.path, { resource_type: "image" })
-            const imageURL = imageUpload.secure_url
-
-            await userModel.findByIdAndUpdate(userId, { image: imageURL })
+            try {
+                const imageUpload = await cloudinary.uploader.upload(imageFile.path, { 
+                    resource_type: "image",
+                    folder: "prescripto/users",
+                    timeout: 60000
+                });
+                const imageURL = imageUpload.secure_url;
+                await userModel.findByIdAndUpdate(userId, { image: imageURL });
+            } catch (error) {
+                console.error("Cloudinary Upload Error:", error);
+                return res.json({ success: false, message: "Image upload failed" });
+            }
         }
 
         res.json({ success: true, message: 'Profile Updated' })
